@@ -60,9 +60,8 @@ func (f *Factory) assemblyVehicle(vehicle vehicle.Car, out chan *vehicle.Car, wg
 	vehicle.TestingLog = f.testCar(&vehicle)
 	vehicle.AssembleLog = idleSpot.GetAssembledLogs()
 	idleSpot.SetVehicle(nil)
-	assembledVehicle := &vehicle
 	f.AssemblingSpots <- idleSpot
-	out <- assembledVehicle
+	out <- &vehicle
 }
 
 func (f *Factory) generateVehicleLots(amountOfVehicles int) <-chan vehicle.Car {
