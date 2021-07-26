@@ -45,14 +45,14 @@ func (f *Factory) StartAssemblingProcess(amountOfVehicles int) <-chan *vehicle.C
 		wg.Add(amountOfVehicles)
 
 		for vehicleToAssembly := range in {
-			go f.assemblyVehicle(vehicleToAssembly, out, &wg)
+			go f.assembleVehicle(vehicleToAssembly, out, &wg)
 		}
 		wg.Wait()
 	}()
 	return out
 }
 
-func (f *Factory) assemblyVehicle(vehicle vehicle.Car, out chan *vehicle.Car, wg *sync.WaitGroup) {
+func (f *Factory) assembleVehicle(vehicle vehicle.Car, out chan<- *vehicle.Car, wg *sync.WaitGroup) {
 	defer wg.Done()
 	idleSpot := <-f.AssemblingSpots
 	idleSpot.SetVehicle(&vehicle)
